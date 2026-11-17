@@ -1,0 +1,33 @@
+name: Sinkronisasi SIM-PASOKAN-CABAI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  jalankan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependensi
+        run: pip install psycopg2-binary pandas
+
+      - name: Jalankan file generate
+        run: python "NAMA_FILE_GENERATE.py"
+        env:
+          DB_PETISAH: ${{ secrets.DB_PETISAH }}
+          DB_SUKARAMAI: ${{ secrets.DB_SUKARAMAI }}
+          DB_SIMPANGLIMUN: ${{ secrets.DB_SIMPANGLIMUN }}
+          DB_PUSAT_MEDAN: ${{ secrets.DB_PUSAT_MEDAN }}
+
+      - name: Jalankan file data warehouse
+        run: python "NAMA_FILE_WAREHOUSE.py"
+        env:
+          DB_PETISAH: ${{ secrets.DB_PETISAH }}
+          DB_SUKARAMAI: ${{ secrets.DB_SUKARAMAI }}
+          DB_SIMPANGLIMUN: ${{ secrets.DB_SIMPANGLIMUN }}
+          DB_PUSAT_MEDAN: ${{ secrets.DB_PUSAT_MEDAN }}
